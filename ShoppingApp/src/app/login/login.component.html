@@ -1,0 +1,69 @@
+
+<div *ngIf="valid">
+<mat-toolbar color="primary">
+    <span>My Shopping Zone</span>
+</mat-toolbar>
+
+
+<body id="bkgrd" style="background-image: url(./assets/login.jpg);">
+<br><br>
+
+<div class="row" >
+    <div class="col-md-4 offset-4">
+        <h3 class="text-center">
+        <div *ngIf="errorMessage!=null" id="errorMessage">
+            <span class="text-danger">{{errorMessage}}</span>
+        </div>
+        <div *ngIf="successMessage!=null" id="successMessage">
+            <span class="text-success">{{successMessage}}</span>
+            <div>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="successbutton"><a (click)="keysuccess()" [routerLink]="['/dashboard']"> Go to Home </a></button>
+            </div>
+        </div>
+        </h3>
+      <div class="card ">
+        
+        <div class="card-header text-center">        
+            <h2 >{{text}}</h2 >
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="card-body">
+
+            <div class="form-group">
+                <label for="emailId">UserId : </label>
+                <input type="email" name="emailId" id="emailId" class="form-control" formControlName="emailId" placeholder="abc@infy.com">
+            </div>
+            
+            <span class="text-danger" *ngIf="loginForm.controls.emailId.errors?.required && loginForm.controls.emailId.touched">UserId field is required</span>
+            <span class="text-danger" *ngIf="loginForm.controls.emailId.errors?.pattern">Please provide in email Id format</span>
+
+            <div class="form-group">
+                <label for="password">Password : </label>
+                <input type="password" name="password" id="password" class="form-control" formControlName="password" placeholder="Password">
+            </div>
+            
+            <div class="text-danger" *ngIf="loginForm.controls.password.errors?.required && (loginForm.controls.password.touched  || loginForm.controls.password.dirty)">Password field is required</div>
+            <!-- <div class="alert alert-danger" *ngIf="registerForm.controls.password.errors?.emailError">{{registerForm.controls.emailId.errors?.emailError.message}}</div> -->
+            </div>
+
+            <div class="card-footer">
+                <button class="btn btn-block btn-primary" type="submit" name="submit" id="submit"  [disabled]="!loginForm.valid">Login</button>
+            </div>
+
+
+        </form>
+    </div>
+    
+</div>
+</div>
+<br><br>
+<br><br>
+</body>
+</div>
+
+<div *ngIf="!valid" >
+    <app-dashboard [uName]="username"></app-dashboard>
+</div>
+
+

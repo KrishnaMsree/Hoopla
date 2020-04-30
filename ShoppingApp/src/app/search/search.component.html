@@ -1,0 +1,43 @@
+
+
+<div *ngIf="!sendData && searchResult.length>0">
+    <button mat-raised-button color="accent" [routerLink]="['/']" (click)="sendSearchDetails()">Go Back</button>
+
+    <h4 class="text-center" style="color:rgb(66, 148, 185)">Showing Search Related Produts
+        <div class="alert alert-success" *ngIf="successMessage!=null">{{successMessage}}</div>
+        <div class="alert alert-danger" *ngIf="errorMessage!=null">{{errorMessage}}</div>
+    </h4>
+    <div class="row" >
+      <!-- <div class="row"> -->
+        <div *ngFor="let category of searchResult" class="col-4">
+            <div class="card">
+                <a (click)="productDetails(category)" [routerLink]="['/product-details/'+category['_id']]">
+                <img [src]="category.image" class="card-img-top" alt="..." width="100%" height="100%">
+                <div class="card-body">
+                    <b><h5 class="card-title">{{category.pName}}
+                        &nbsp;&nbsp;&nbsp;<span class="badge bg-warning text-danger">{{category.pRating}}*</span></h5></b>
+                    <p class="text-dark">{{category.pDescription}}</p>
+                    <div>
+                        <span class="text-danger">{{category.price | currency:'INR' }}</span>
+                    </div>
+                </div>
+                </a>
+                <div class="card-footer">
+                    <button class="btn btn-primary" name="button" (click)="buyNow(category)">Buy Now</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div *ngIf="sendData ">
+    <app-product-details [userName]="userEmailId" [categoryFromDashboard]="obj" (customEvent)="getDataFromChild($event)"></app-product-details>
+  </div>
+<div class="!sendData && searchResult.length==0">
+    <div *ngIf="error!=null" id="errorMessage">
+        <span class="alert alert-danger">{{error}}</span>
+    </div>
+    <br>
+    <button mat-raised-button color="accent" class="text-center" [routerLink]="['/']" (click)="sendSearchDetails()">Go Back</button>
+</div>

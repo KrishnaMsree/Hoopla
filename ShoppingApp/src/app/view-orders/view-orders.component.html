@@ -1,0 +1,67 @@
+<button class="btn btn-warning text-center" style="position: fixed;left: 20px;bottom: 20px;" name="cntue" [routerLink]="['/dashboard']" (click)="DatafromProductDetails()">Continue Shopping</button>
+<div *ngIf="errorMessage!=null && length==0">
+  <div class="col-8 offset-2">
+    <div class="alert alert-danger text-center">{{errorMessage}}</div><br>
+    <img src="./assets/chowpic.jpg" alt="chowpic" width="100%" height="20%">
+  </div>
+</div>
+<div *ngIf="successMessage!=null && length!=0" class="alert alert-success text-center">{{successMessage}}</div>
+<div style="padding-top: 50px;" *ngIf="!valid">
+    
+    <h3 id="products" *ngIf="errorMessage==null">You have {{length}} products in your cart!</h3>
+    <div class="row" *ngIf="errorMessage==null">
+      
+      <div class="offset-1 col-lg-10" *ngFor="let data of orders">
+        <mat-card class="example-card" *ngIf="data.pid">
+          <div class="row">
+            <div class="col-6">
+              <mat-card-header>
+                <mat-card-title>{{data.pName}}</mat-card-title>
+                <mat-card-subtitle>Product Id : {{data.pid}}</mat-card-subtitle>
+              </mat-card-header>
+    
+              <span><img [src]="data.image" alt="..." width="65%" height="65%"></span>
+
+            </div>
+            <div class="col-6">
+              <span>
+                <p> Date of Ordered : {{data.orderDate | date : "medium"}} </p>
+                  <h4><marquee class="text-danger" behavior="scroll" direction="right">Only {{data.pQuantity}} in stock</marquee></h4>
+                 <p> <b>Delivery Time : </b>Delivery in 7 Business days</p>
+                  <h4>Total price of this product : {{data.price | currency:'INR'}}</h4>
+                </span>
+                <div class="example-button-container">
+                  <button mat-fab color="primary" (click)="remove(data)" aria-label="Example icon button with a delete icon">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+            </div>
+          </div>
+          
+          
+        </mat-card><br> <br>
+
+      </div>
+    </div>
+</div>
+<button id="btn" *ngIf="errorMessage==null" mat-raised-button color="warn" (click)="checkout(sum)">Check Out</button>
+
+<div class="row" *ngIf="valid">
+  <div class="col-6 offset-3">
+    <h3>Price Details</h3>
+    <div class="example-cards">
+      <!-- <img class="card-img-top" src="./assets/checkout.jpeg" alt="Card image"> -->
+      <div >
+        <h3 class="text-center">Total Items : {{orders.length}}</h3><br><br>
+        <pre><h5>Total price                          :         {{sum | currency : 'INR'}}</h5></pre>
+        <mat-divider></mat-divider><br>
+        <pre><h5>Total Tax(17% by default)   :         {{tax | currency : 'INR'}}</h5></pre>
+        <mat-divider></mat-divider><br>
+        <pre><h5>Total Payable                      :         {{(sum+tax) | currency : 'INR'}}</h5></pre> 
+        <mat-divider></mat-divider><br>
+        <button mat-raised-button color="primary">Checkout Now</button> 
+      </div>
+    </div>
+
+  </div>
+</div>

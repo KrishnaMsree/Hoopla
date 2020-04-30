@@ -1,0 +1,133 @@
+
+<div *ngIf="!navLink; else navigate">
+  <mat-toolbar color="primary">
+    <span>My Shopping App</span>
+
+    <!-- This fills the remaining space of the current row -->
+    <span class="example-fill-remaining-space"></span>
+    <span class="texts">Welcome {{uName}}</span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="texts" name="vieworders"><a (click)="cart()" [routerLink]="['/view-orders']"> View Orders </a></span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="texts" name="logout"><a (click)="Logout()" [routerLink]="['/login']">Logout</a> </span>
+  </mat-toolbar>
+
+  <div *ngIf="!sendData; else productFound">
+    <div *ngIf="tab">
+    <nav class="navbar navbar-expand-sm bg-info navbar-light" >
+      <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <!-- Navbar links -->
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav mr-auto">
+          <!-- <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" name="furniture" (click)="keyup('Furniture')">Furniture</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" (click)="keyup('Clothing')">Clothing</a> 
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" (click)="keyup('Electronics')">Electronics</a>
+          </li> 
+          <li class="nav-item">
+            <a class="nav-link" (click)="keyup('Shoes')">Shoes</a>
+          </li> 
+        </ul>
+      </div>
+        
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" name="search" #search placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-dark my-2 my-sm-0" (click)="searchbutton(search.value)" [routerLink]="['/search']" name="searchbutton" type="submit">Search</button>
+      </form>
+      
+    </nav>
+    </div>
+    <br>
+    <br>
+    <!-- {{array | json}} -->
+    <div *ngIf="!valid && !validsearch && !navLinkOrders" >
+        <div class="row" >
+          <div class="col-4" *ngFor="let a of array">
+            <a (click)="keyup(a.titleArray)" [routerLink]="['/a.titleArray']">
+            <div class="card" id="cards">
+                <img [src]="a.imgArray" class="card-img-top" alt="..." width="100%" height="100%">
+                <div class="card-body">
+                  <b><h5 class="card-title"> {{a.titleArray}}
+                    &nbsp;&nbsp;&nbsp;<span class="badge bg-warning text-danger">{{a.ratingArray}}</span></h5></b>
+                  <p class="card-text text-primary">{{a.descArray}} </p>
+                  <div>
+                    <h4><span><marquee behavior="scroll" direction="left" class="text-danger">{{a.offerRating}}</marquee></span></h4>
+                  </div>
+                </div>
+            </div>
+            </a>
+          </div>
+
+          
+        </div>
+    </div>
+
+
+    <div *ngIf="valid && !validsearch && !navLinkOrders; else productFound">
+      <h4 *ngIf="categorydetails; else notFound" class="text-center" style="color:rgb(66, 148, 185)">Showing Products {{product}}
+        <div class="alert alert-success" *ngIf="successMessage!=null">{{successMessage}}</div>
+        <div class="alert alert-danger" *ngIf="errorMessage!=null">{{errorMessage}}</div></h4>
+      <div class="row">
+        <div *ngFor="let category of categorydetails" class="col-4">
+          <div class="card">
+            <a (click)="productDetails(category)" [routerLink]="['/product-details/'+category['_id']]">
+              <img [src]="category.image" class="card-img-top" alt="..." width="100%" height="100%">
+              <div class="card-body">
+                <b><h6 class="card-title"> {{category.pName}}
+                  &nbsp;&nbsp;&nbsp;<span class="badge bg-warning">{{category.pRating}}*</span></h6></b>
+                <p class="card-text">{{category.pDescription}}</p>
+                <p>Only {{category.pSeller.pQuantity}} left in stock</p>
+                <div>
+                  <span style="color:crimson;">{{category.price | currency:'INR' }}</span>
+                </div>
+              </div>
+            </a>
+            <div class="card-footer">
+              <button class="btn btn-primary" name="buynow"><a [routerLink]="['/bought']" (click)="buyNow(category)"> Buy Now </a></button>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    
+
+
+  </div>
+
+
+  <ng-template #notFound>
+    <div class="text text-danger text-center"> Sorry! No Products found! <br>
+    <button class="btn btn-danger text-center" (click)="Notification()">Notify Me</button></div>
+  </ng-template>
+
+  <div *ngIf="sendData">
+    <app-product-details [categoryFromDashboard]="obj" [userName]="uName" (customEvent)="getDataFromChild($event)"></app-product-details>
+  </div>
+  <div *ngIf="validsearch">
+    <app-search [userEmailId]="uName" [searchFromDashboard]="patternval" (customSeachEvent)="getSeachDetails($event)"></app-search>
+  </div>
+  <div *ngIf="navLinkOrders">
+    <app-view-orders [userEmailId]="uName"  (viewevent)="DataFromOrders($event)"></app-view-orders>
+  </div>
+
+</div>
+
+<div *ngIf="navLink">
+  <app-login></app-login>
+</div>
+
+

@@ -1,0 +1,33 @@
+<!-- <p>product-details works!</p> -->
+<!-- {{categoryFromDashboard | json}} -->
+<body id="bkgrd" style="background-image: url(./assets/login1.jpg);">
+
+
+<h4 class="offset-2">{{categoryFromDashboard.pName}} details
+    <div class="alert alert-success" *ngIf="successMessage!=null">{{successMessage}}</div>
+    <div class="alert alert-danger" *ngIf="errorMessage!=null">{{errorMessage}}</div>
+</h4>
+<br>
+<br><div class="row">
+    <div class="col-md-4 offset-1" id="atags">
+        <span> <img [src]="categoryFromDashboard.image" alt="Image not found" width="70%" height="70%"></span><br><br>
+        <!-- <button class="btn btn-primary" (click)="pushDataToKart(categoryFromDashboard)">Add to Kart</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+        <button class="btn btn-warning"><a [routerLink]="['/']" (click)="DatafromProductDetails()"> Go Back </a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-primary" name="buynow"><a [routerLink]="['/bought']" (click)="buyNow(categoryFromDashboard)"> Buy Now </a></button>
+    </div>
+    <div class="col-md-4" id="atags">
+        <h4 class="text-danger">{{categoryFromDashboard.pName}} &nbsp;&nbsp;&nbsp;&nbsp; <span class="badge bg-warning">{{categoryFromDashboard.pRating}}*</span></h4><br>
+        <span><h6> By Seller {{categoryFromDashboard.pSeller.sId}} </h6></span> <br>
+        <p><b> Description : </b>{{categoryFromDashboard.pDescription}}</p>
+        <p><b>Specification : </b>{{categoryFromDashboard.specification}}</p>
+        <ul><li> Color : {{categoryFromDashboard.color}}</li></ul>
+        <h6><b> Price : {{categoryFromDashboard.price | currency:'INR' }}</b></h6>
+        <h5 class="text-warning">{{categoryFromDashboard.pSeller.pDiscount | percent}} Off + {{categoryFromDashboard.pSeller.pShippingCharges}} Shipping charges</h5>
+        <p>Quantity Left : <b>{{categoryFromDashboard.pSeller.pQuantity}}</b></p>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+</body>
