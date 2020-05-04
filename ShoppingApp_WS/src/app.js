@@ -14,8 +14,8 @@ app.use( '/', router );
 app.use( myErrorLogger );
 
 
-app.listen( 3000 );
-console.log( "Hoopla Server listening in port 3000" );
+app.listen( 2000 );
+console.log( "Hoopla Server listening in port 2000" );
 
 
 module.exports = app;

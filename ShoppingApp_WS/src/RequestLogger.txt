@@ -2482,3 +2482,12 @@ Sun Apr 26 2020 20:15:34 GMT+0530 (India Standard Time) POST /login
 Sun Apr 26 2020 20:15:37 GMT+0530 (India Standard Time) GET /getOrders/kalyan
 Sun Apr 26 2020 20:16:37 GMT+0530 (India Standard Time) POST /login
 Sun Apr 26 2020 20:16:40 GMT+0530 (India Standard Time) GET /getOrders/kalyan
+Sat May 02 2020 12:20:16 GMT+0530 (India Standard Time) GET /
+Sat May 02 2020 12:20:28 GMT+0530 (India Standard Time) GET /setupdb
+Sat May 02 2020 12:20:38 GMT+0530 (India Standard Time) GET /product/1001
+Sat May 02 2020 12:52:44 GMT+0530 (India Standard Time) GET /
+Sat May 02 2020 12:52:58 GMT+0530 (India Standard Time) GET /setupdb
+Sat May 02 2020 12:52:58 GMT+0530 (India Standard Time) GET /favicon.ico
+Sun May 03 2020 09:58:47 GMT+0530 (India Standard Time) GET /fp/training/stream
+Sun May 03 2020 10:16:48 GMT+0530 (India Standard Time) GET /home/user
+Sun May 03 2020 10:17:17 GMT+0530 (India Standard Time) GET /home/user
