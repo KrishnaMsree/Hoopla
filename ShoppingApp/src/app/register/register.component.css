@@ -1,0 +1,34 @@
+a{
+    text-decoration: none;
+    color: aliceblue;
+  }
+  .texts{
+    font-size: 16px;
+  }
+  .example-fill-remaining-space {
+    /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+  }
+  .card{
+    background-color: #ffffff;
+    border: 1px solid black;
+    opacity: 0.6;
+    background: rgba(52, 125, 138, 0.3)
+  }
+  .form-group{
+    font-size: 20px;
+    font-weight: bold;
+    color:#111312;
+  }
+  .text-danger{
+    font-size: 15px;
+    font-weight: bold;
+  }
+  #bkgrd{
+    width: 100%;
+    height: 100%;
+    /* background-position: center; */
+    /* background-repeat: no-repeat; */
+    background-size: cover;
+  }

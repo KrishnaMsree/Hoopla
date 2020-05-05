@@ -10,7 +10,7 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   loginData(formData: any): Observable<any> {
-    this.url = 'http://localhost:3000/login';
+    this.url = 'http://localhost:2000/login';
     return <Observable<any>> this.http.post(this.url, formData);
   }
 }

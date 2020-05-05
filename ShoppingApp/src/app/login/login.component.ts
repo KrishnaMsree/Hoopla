@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   successMessage: string;
   valid = true;
   username;
+  registerbutton = false;
   sessionStorageEmail: any;
   constructor(private fb: FormBuilder, private loginservice: LoginService) { }
   loginForm: FormGroup = this.fb.group({
@@ -20,6 +21,9 @@ export class LoginComponent implements OnInit {
     password: ['', [Validators.required]]
   });
   ngOnInit() {
+  }
+  register(){
+    this.registerbutton = true;
   }
   login() {
     this.successMessage = null;
@@ -31,7 +35,7 @@ export class LoginComponent implements OnInit {
       this.username = this.successMessage.substring(8, 30);
       sessionStorage.setItem('EmailId', this.username);
       this.sessionStorageEmail = sessionStorage.getItem('EmailId');
-      // console.log("sse : "+this.sessionStorageEmail);
+      console.log("username : "+this.username);
     }, err => this.errorMessage = err.error.message);
   }
   keysuccess() {

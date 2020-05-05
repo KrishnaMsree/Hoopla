@@ -58,6 +58,7 @@ export class ViewOrdersComponent implements OnInit {
     );
   }
   checkout(sum){
+    this.successMessage = this.errorMessage = null;
     this.tax = (sum*17)/100;
     this.valid = true;
   }

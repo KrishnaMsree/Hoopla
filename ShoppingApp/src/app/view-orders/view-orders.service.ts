@@ -9,11 +9,11 @@ export class ViewOrdersService {
   url;
   constructor(private http: HttpClient) { }
   viewAllOrders(emailId) {
-    this.url = 'http://localhost:3000/getOrders/' + emailId;
+    this.url = 'http://localhost:2000/getOrders/' + emailId;
     return this.http.get(this.url);
   }
   removeOrder(pid) {
-    this.url = 'http://localhost:3000/removeOrder/' + pid;
+    this.url = 'http://localhost:2000/removeOrder/' + pid;
     return this.http.delete(this.url);
   }
 }

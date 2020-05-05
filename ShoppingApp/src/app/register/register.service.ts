@@ -9,7 +9,7 @@ export class RegisterService {
   url;
   constructor(private http: HttpClient) { }
   sendRegisterDetails(user) {
-    this.url = 'http://localhost:3000/register';
+    this.url = 'http://localhost:2000/register';
     return this.http.post(this.url, user);
   }
 }

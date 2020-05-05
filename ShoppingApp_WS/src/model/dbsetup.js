@@ -112,7 +112,7 @@ const productDb=
         "pSeller": {
           "sId": "Adidas@Seller",
           "pDiscount": 0.2,
-          "pQuantity": 666,
+          "pQuantity": 1,
           "pShippingCharges": 150
         }
       },

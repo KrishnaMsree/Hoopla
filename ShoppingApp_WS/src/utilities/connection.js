@@ -52,7 +52,6 @@ const registerSchema = Schema( {
     emailId: String,
     password: String,
     name: String,
-    dateOfBirth: Date,
     phoneNo: Number
 }, { collection: "Register" } );
 

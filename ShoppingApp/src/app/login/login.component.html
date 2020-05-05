@@ -1,7 +1,9 @@
 
-<div *ngIf="valid">
+<div *ngIf="valid && !registerbutton">
 <mat-toolbar color="primary">
     <span>My Shopping Zone</span>
+    <span class="example-fill-remaining-space"></span>
+    <span class="texts" name="register"><a (click)="register()" [routerLink]="['/register']">Register</a> </span>
 </mat-toolbar>
 
 
@@ -54,6 +56,10 @@
 
         </form>
     </div>
+    <div class="text-center"><br>
+        <p>New to Hoopla Shopping Zone</p>
+        <button class="btn btn-secondary btn-block" [routerLink]="['/register']" (click)="register()">Create your Hoopla Shopping Account</button>
+    </div>
     
 </div>
 </div>
@@ -62,8 +68,12 @@
 </body>
 </div>
 
-<div *ngIf="!valid" >
+<div *ngIf="!valid && !registerbutton" >
     <app-dashboard [uName]="username"></app-dashboard>
+</div>
+
+<div *ngIf="registerbutton" >
+    <app-register></app-register>
 </div>
 
 
