@@ -20,7 +20,10 @@
                 <mat-card-subtitle>Product Id : {{data.pid}}</mat-card-subtitle>
               </mat-card-header>
     
-              <span><img [src]="data.image" alt="..." width="65%" height="65%"></span>
+              <span>
+                <img *ngIf="data.image.startsWith('./assets')" [src]="data.image" class="card-img-top" alt="Image not found..." width="65%" height="65%">
+                <img *ngIf="!data.image.startsWith('./assets')"  src="./assets/{{data.image.substring(12)}}" class="card-img-top" alt="Image not found..." width="65%" height="65%">
+              </span>
 
             </div>
             <div class="col-6">
@@ -44,7 +47,7 @@
       </div>
     </div>
 </div>
-<button id="btn" *ngIf="errorMessage==null" mat-raised-button color="warn" (click)="checkout(sum)">Check Out</button>
+<button id="btn" *ngIf="errorMessage==null" mat-raised-button color="warn" [routerLink]="['/checkOutProducts']" (click)="checkout(sum)">Check Out</button>
 
 <div class="row" *ngIf="valid">
   <div class="col-6 offset-3">

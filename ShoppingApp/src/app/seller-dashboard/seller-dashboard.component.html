@@ -1,0 +1,217 @@
+  <nav class="navbar navbar-expand-sm bg-info navbar-light" >
+    <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+      <!-- Navbar links -->
+
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" (click)="home()" routerLinkActive="router-link-active" [routerLink]="['dashboard/seller/home']">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" (click)="add()" routerLinkActive="router-link-active" [routerLink]="['dashboard/seller/addProduct']">Add Products</a> 
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" (click)="view()" routerLinkActive="router-link-active" [routerLink]="['dashboard/seller/myProducts']">My Products</a>
+        </li> 
+      </ul>
+    </div>
+    <li class="nav-item form-inline my-2 my-lg-0" id="search">
+      <a class="nav-link text-light" (click)="profile()" routerLinkActive="router-link-active" [routerLink]="['dashboard/seller/myProfile']">MyProfile</a>
+    </li>
+    
+  </nav>
+
+  <br>
+  <br>
+  <div *ngIf="!addProducts && homevar && !viewProducts && !myProfile" >
+    <div class="row" >
+      <div class="col-8 offset-2">
+        <video src="./assets/video.mp4" width="100%" height="100%" autoplay controls [muted]="true" loop></video>
+      </div>  
+    </div>
+  </div>
+  
+  <div *ngIf="addProducts && !homevar && !viewProducts && !myProfile">
+      <div class="row">
+        <div class="col-5 offset-4">
+          <h3 class="text-center">
+            <div *ngIf="errorMessage!=null" id="errorMessage">
+                <span class="text-danger">{{errorMessage}}</span>
+            </div>
+            <div *ngIf="successMessage!=null" id="successMessage">
+                <span class="text-success">{{successMessage}}</span>
+            </div>
+          </h3>
+          <div>
+            <h3 class="text-center">Fill out Product Details</h3>
+          </div>
+        </div>
+      </div>
+
+      <form [formGroup]="firstFormGroup" (ngSubmit)="submitForm()">
+        <div class="row">
+
+          <div class="col-5 offset-1">
+            <div class="card">
+              <!-- <div class="card-header">
+                <h3>Fill out Product Details</h3>
+              </div> -->
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="userEmail">UserId:</label>
+                  <input class="form-control" name="userEmail" type="text" id="userEmail" formControlName="userEmail" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="pName">Product Name:</label>
+                  <input class="form-control" name="pName" type="text" placeholder="Eg. Adidas Running Women Lite" id="pName" formControlName="pName">
+                </div>
+                <div>
+                  <span class="text-danger" *ngIf="firstFormGroup.controls.pName.touched &&  firstFormGroup.controls.pName.errors?.required">Product Name field is required</span>
+                  <span class="text-danger" *ngIf="firstFormGroup.controls.pName.errors?.pattern">Enter only Alphabet</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="pDesc">Product Description:</label>
+                  <input class="form-control" name="pDesc" type="text" placeholder="Give description" id="pDesc" formControlName="pDesc">
+                </div>
+                <div>
+                  <span class="text-danger" *ngIf=" firstFormGroup.controls.pDesc.touched &&  firstFormGroup.controls.pDesc.errors?.required">Product Description field is required</span>
+                  <span class="text-danger" *ngIf=" firstFormGroup.controls.pDesc.errors?.pattern">Enter only Alphabet</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="pRating">Product Rating:</label>
+                  <input class="form-control" name="pRating" type="number" placeholder="Eg. 4.5" id="pRating" formControlName="pRating">
+                </div>
+                <div>
+                  <span class="text-danger" *ngIf=" firstFormGroup.controls.pRating.touched &&  firstFormGroup.controls.pRating.errors?.required">Rating field is required</span>
+                  <span class="text-danger" *ngIf=" firstFormGroup.controls.pRating.errors?.pattern">Rating should be greater than 0 and less than 6</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="pCategory">Product Category:</label>
+                  <select class="form-control" name="pCategory" placeholder="Select Category" id="pCategory" formControlName="pCategory">
+                    <option value="" disabled selected>--Select a category--</option>
+                    <option value="Shoes">Shoes</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Furniture">Furniture</option>
+                  </select>
+                </div>
+                <div>
+                  <span class="text-danger" *ngIf=" firstFormGroup.controls.pCategory.touched &&  firstFormGroup.controls.pCategory.errors?.required">Product Category field is required</span>
+                </div>
+
+                <div class="form-group">
+                  <label   for="price">Product Price:</label>
+                  <input class="form-control" name="price" type="number" placeholder="Eg. 13999" id="price" formControlName="price">
+                </div>
+                <div>
+                  <span class="text-danger" *ngIf=" firstFormGroup.controls.price.touched &&  firstFormGroup.controls.price.errors?.required">Price field is required</span>
+                </div>
+
+                <div class="form-group">
+                  <label   for="color">Product Color:</label>
+                  <input class="form-control" name="color" type="text" placeholder="Eg. red" formControlName="color" id="color">
+                </div>
+                <div>
+                  <span class="text-danger" *ngIf=" firstFormGroup.controls.color.touched &&  firstFormGroup.controls.color.errors?.required">Color field is required</span>
+                  <span class="text-danger" *ngIf=" firstFormGroup.controls.color.errors?.pattern">Enter only alphabet</span>
+                </div>
+
+                <div class="form-group">
+                  <label   for="image">Product Image:</label>
+                  <input class="form-control" name="image" type="file" formControlName="image" placeholder="image files only" (change)="imageFun($event)" id="image">
+                </div>
+                <div>
+                  <span class="text-danger" *ngIf=" firstFormGroup.controls.image.touched &&  firstFormGroup.controls.image.errors?.required">Image field is required</span>
+                </div>
+
+              </div>
+            </div>
+        </div>
+
+        <div class="col-5">
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="specification">Product Specification:</label>
+                <input class="form-control" name="specification" type="text" placeholder="Provide some specification" id="specification" formControlName="specification">
+              </div>
+              <div>
+                <span class="text-danger" *ngIf=" firstFormGroup.controls.specification.touched &&  firstFormGroup.controls.specification.errors?.required">Specification field is required</span>
+                <span class="text-danger" *ngIf=" firstFormGroup.controls.specification.errors?.pattern">Enter only Alphabet</span>
+              </div>
+
+              <div class="form-group">
+                <label for="firstDate">First Date:</label>
+                <input class="form-control" name="firstDate" type="date" placeholder="Provide first date " formControlName="firstDate" id="firstDate">
+              </div>
+              <div>
+                <span class="text-danger" *ngIf=" firstFormGroup.controls.firstDate.touched &&  firstFormGroup.controls.firstDate.errors?.required">First Date field is required</span>
+              </div>
+
+              <div class="form-group">
+                <label for="lastDate">Last Date:</label>
+                <input class="form-control" name="lastDate" type="date" placeholder="Provide last date" id="lastDate" formControlName="lastDate" >
+              </div>
+              <div>
+                <span class="text-danger" *ngIf=" firstFormGroup.controls.lastDate.touched &&  firstFormGroup.controls.lastDate.errors?.required">Last Date field is required</span>
+              </div>
+
+              <div class="form-group">
+                <label for="sId">Seller Id:</label>
+                <input class="form-control" name="sId" type="text" placeholder="Eg. abc@Seller" id="sId" formControlName="sId">
+              </div>
+              <div>
+                <span class="text-danger" *ngIf=" firstFormGroup.controls.sId.touched &&  firstFormGroup.controls.sId.errors?.required">Seller Id field is required</span>
+                <span class="text-danger" *ngIf=" firstFormGroup.controls.sId.errors?.pattern">Provide in "abc@Seller" format</span>
+              </div>
+
+              <div class="form-group">
+                <label for="pDiscount">Product Discount:</label>
+                <input class="form-control" name="pDiscount" type="number" placeholder="Eg. 0.2" id="pDiscount" formControlName="pDiscount" >
+              </div>
+              <div>
+                <span class="text-danger" *ngIf=" firstFormGroup.controls.pDiscount.touched &&  firstFormGroup.controls.pDiscount.errors?.required">Discount field is required</span>
+              </div>
+
+              <div class="form-group">
+                <label for="pQuantity">Product Quantity:</label>
+                <input class="form-control" name="pQuantity" type="number" placeholder="Eg. 630" formControlName="pQuantity" id="pQuantity">
+              </div>
+              <div>
+                <span class="text-danger" *ngIf=" firstFormGroup.controls.pQuantity.touched &&  firstFormGroup.controls.pQuantity.errors?.required">Quantity field is required</span>
+              </div>
+
+              <div class="form-group">
+                <label for="pShippingCharges">Shipping charges:</label>
+                <input class="form-control" name="pShippingCharges" type="number" formControlName="pShippingCharges" id="pShippingCharges" placeholder="Eg. 150">
+              </div>
+              <div>
+                <span class="text-danger" *ngIf=" firstFormGroup.controls.pShippingCharges.touched &&  firstFormGroup.controls.pShippingCharges.errors?.required">Shipping Charges field is required</span>
+              </div>
+
+            </div>
+            <div class="card-footer">
+              <!-- [disabled]='!firstFormGroup.valid' -->
+              <button class="btn btn-primary btn-block"  type="submit" name="submit" id="submit" [disabled]='!firstFormGroup.valid'>Add Product</button>
+            </div>
+          </div>
+        </div>
+    </div>
+  </form>
+      <!-- {{firstFormGroup.value | json}} -->
+
+</div>
+
+<div *ngIf="!addProducts && !homevar && viewProducts && !myProfile">
+  <app-view-products></app-view-products>
+</div>
+<div *ngIf="!addProducts && !homevar && !viewProducts && myProfile">
+  <app-my-profile></app-my-profile>
+</div>
+

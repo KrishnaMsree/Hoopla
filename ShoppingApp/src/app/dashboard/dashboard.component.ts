@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DashboardService } from './dashboard.service';
 import { CategoryDetails } from '../shared/categorydetails';
 import { Router } from '@angular/router';
+import { MyProfileService } from '../seller-dashboard/myProfile/my-profile.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,10 +19,12 @@ export class DashboardComponent implements OnInit {
   categorydetails: any;
   searchDetails: any;
   errorMessage: string;
-  successMessage: string;
+  successMessage;
   product;
   obj;
   zone = false;
+  userType = sessionStorage.getItem('userType');
+  userEmail = sessionStorage.getItem('userEmail');
   patternval;
   validsearch = false;
   sendData = false;
@@ -29,7 +32,9 @@ export class DashboardComponent implements OnInit {
   searchErrorMessage;
   navLink;
   cat;
+  myProfile = false;
   tab;
+
   array = [{"imgArray":"./assets/furniture.png","titleArray":"Furniture",'ratingArray':"4.5*",
   'descArray':"Browse through our wide selection of Sofas, Mattresses, Beds and more.",
   'offersArray':"40% Offers",},{"imgArray":"./assets/clothing.jpg","titleArray":"Clothing",'ratingArray':"4.5*",
@@ -41,14 +46,35 @@ export class DashboardComponent implements OnInit {
   navLinkOrders;
   welcomeMsg;
   slideIndex = 1;
-  constructor(private dashboardservice: DashboardService, private router: Router) { }
-  ngOnInit() {
-    // this.errorMessage = this.successMessage = null;
-    this.welcomeMsg = "Welcome "+ this.uName;
-    
-    this.tab = true;
-  }
+  isLinear = false;
+  home = false;
+  constructor(private dashboardservice: DashboardService, private router: Router,private myProfileService: MyProfileService) { }
+  
+  
 
+
+  ngOnInit() {
+    this.welcomeMsg = "Welcome "+ this.uName + "!";
+    this.tab = true;
+    this.successMessage = this.errorMessage = null;
+    this.myProfileService.getRegisterDetails(this.userEmail).subscribe(
+      data => this.successMessage = data,
+      error => this.errorMessage = error.error.message
+    );
+  
+  }
+  validFromLogin(val){
+    this.navLink = val;
+  }
+  profile(){
+    this.validsearch = false;
+    this.myProfile = true;
+    this.navLinkOrders = false;
+    this.tab = true;
+    this.sendData = false;
+    this.patternval = false;
+    this.valid = false;
+  }
   searchbutton(val) {
     this.errorMessage = this.successMessage = null;
     this.validsearch = true;
@@ -56,10 +82,15 @@ export class DashboardComponent implements OnInit {
     this.sendData = false;
     this.tab = true;
     this.navLinkOrders = false;
+    this.myProfile = false;
+    this.valid = false;
+
   }
   getSeachDetails(val) {
     this.validsearch = val;
     this.sendData = false;
+    this.myProfile = false;
+    this.navLinkOrders = false;
     this.tab = true;
   }
   cart() {
@@ -67,9 +98,10 @@ export class DashboardComponent implements OnInit {
     this.navLink = false;
     this.sendData = false;
     this.valid = false;
+    this.myProfile = false;
     this.tab = true;
     this.validsearch = false;
-
+    
   }
   Logout(v) {
     this.navLink = true;
@@ -80,6 +112,14 @@ export class DashboardComponent implements OnInit {
     this.navLinkOrders = val;
     
   }
+  getNavLinkFromProductDetails(val){
+    this.navLink = val;
+    sessionStorage.clear();
+  }
+  getNavLinkFromSearch(val){
+    this.navLink = val;
+    sessionStorage.clear();
+  }
   getDataFromChild(val) {
     this.errorMessage = this.successMessage = null;
     this.sendData = val;
@@ -87,6 +127,10 @@ export class DashboardComponent implements OnInit {
   keyup(value) {
     this.tab = true;
     this.errorMessage = this.successMessage = null;
+    this.navLinkOrders = false;
+    this.validsearch = false;
+    this.myProfile = false;
+    this.patternval = false;
     this.valid = true;
     this.product = value;
     this.dashboardservice.view(value).subscribe(
@@ -107,7 +151,12 @@ export class DashboardComponent implements OnInit {
         pName: category.pName, pQuantity: category.pSeller.pQuantity,
         price: category.price, orderDate: b.toString(), image: category.image});
       this.dashboardservice.sendOrderDetails(orderArray).subscribe(
-        success => this.successMessage = success['message'],
+        success => {
+          this.successMessage = success['message'];
+          if(this.successMessage!=null){
+            this.router.navigate(['/productPurchased/'+category.pName])
+          }
+        },
         error => this.errorMessage = error.error.message
       );
       this.keyup(category.pCategory);
@@ -117,6 +166,13 @@ export class DashboardComponent implements OnInit {
       this.errorMessage = 'Please Login to your account';
 
     }
+  }
+  myHome(){
+    // this.home = true;
+    this.valid = false;
+    this.myProfile = false;
+    this.navLinkOrders = false;
+    this.validsearch = false;
   }
   Notification() {
     this.errorMessage = this.successMessage = null;
@@ -133,4 +189,7 @@ export class DashboardComponent implements OnInit {
     this.errorMessage = this.successMessage = null;
     this.zone = true;
   }
+
+
+
 }

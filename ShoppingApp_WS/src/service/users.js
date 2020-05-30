@@ -5,11 +5,11 @@ let credService = {}
 credService.checkUser = ( CredObj ) => {
     return db.checkUser( CredObj ).then( ( data ) => {
         if( data === null ) {
-            let err = new Error( "No User Found with this username" );
+            let err = new Error( "Invalid userId or password" );
             err.status = 404;
             throw err;
         } else if( data.password!=CredObj.password ) {
-            let err =new Error( "Wrong Password" );
+            let err =new Error( "Invalid userId or password" );
             err.status = 401;
             throw err;
         } else{
@@ -69,7 +69,55 @@ credService.register=( user )=>{
         err.status=404;
         throw err;
     }
-} )
+    })
+}
+
+credService.addProduct=( user )=>{
+    return db.addProduct( user ).then( ( result )=>{
+        if( result!=null ){
+            return result
+        } else{
+            let err = new Error( "Something went wrong!! Please try again" );
+            err.status=404;
+            throw err;
+        }
+    })
+}
+
+credService.editProduct=( user )=>{
+    return db.editProduct( user ).then( ( result )=>{
+        if( result!=null ){
+            return result
+        } else{
+            let err = new Error( "Something went wrong!! Please try again" );
+            err.status=404;
+            throw err;
+        }
+    })
+}
+
+credService.getSellerProducts=( user )=>{
+    return db.getSellerProducts( user ).then( ( result )=>{
+        if( result!=null ){
+            return result
+        } else{
+            let err = new Error( "You haven't ordered anything yet!" );
+            err.status=404;
+            throw err;
+        }
+    } )
+}
+
+credService.getRegisterDetails=( user )=>{
+    return db.getRegisterDetails( user ).then( ( result )=>{
+        if( result!=null ){
+            return result
+        } else{
+            let err = new Error( "Something went wrong, Please try again later!" );
+            err.status=404;
+            throw err;
+        }
+    } )
 }
 
 credService.search=()=>{

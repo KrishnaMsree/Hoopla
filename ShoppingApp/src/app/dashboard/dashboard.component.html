@@ -1,60 +1,61 @@
 
 <div *ngIf="!navLink; else navigate">
   <mat-toolbar color="primary">
-    <span>My Shopping App</span>
+    <span><a class="text" [routerLink]="['dashboard']" (click)="myHome()"> My Shopping Zone </a></span>
 
     <!-- This fills the remaining space of the current row -->
     <span class="example-fill-remaining-space"></span>
-    <span class="texts" *ngIf="uName!=null">{{welcomeMsg}}</span>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span class="texts" name="vieworders"><a (click)="cart()" [routerLink]="['/view-orders']"> View Orders </a></span>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span class="texts" *ngIf="uName==null" name="login"><a (click)="Logout()" [routerLink]="['/login']">Login</a> </span>
-    <span class="texts" *ngIf="uName!=null" name="logout"><a (click)="Logout()" [routerLink]="['/login']">Logout</a> </span>
+    <span *ngIf="uName!=null" ><a (click)="profile()" class="texts" [routerLink]="['dashboard/myProfile']">{{welcomeMsg}}</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span *ngIf="uName!=null && userType!='seller'" name="vieworders"><a class="texts" (click)="cart()" [routerLink]="['/view-orders']"> View Orders </a>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    
+    <span *ngIf="uName==null" name="login"><a class="texts" (click)="Logout()" [routerLink]="['/login']">Login</a> </span>
+    <span *ngIf="uName!=null" name="logout"><a class="texts" (click)="Logout()" [routerLink]="['/login']">Logout</a> </span>
   </mat-toolbar>
 
-  <div *ngIf="!sendData; else productFound">
+  <div *ngIf="(userType==null || userType=='buyer') && !sendData; else productFound">
     <div *ngIf="tab">
-    <nav class="navbar navbar-expand-sm bg-info navbar-light" >
-      <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-        <!-- Navbar links -->
-      <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="navbar-nav mr-auto">
-          <!-- <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li> -->
-          <li class="nav-item">
-            <a class="nav-link" name="furniture" (click)="keyup('Furniture')">Furniture</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" (click)="keyup('Clothing')">Clothing</a> 
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" (click)="keyup('Electronics')">Electronics</a>
-          </li> 
-          <li class="nav-item">
-            <a class="nav-link" (click)="keyup('Shoes')">Shoes</a>
-          </li> 
-        </ul>
-      </div>
+      <nav class="navbar navbar-expand-sm bg-info navbar-light" >
+        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+          <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav mr-auto">
+            <!-- <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" name="furniture" [routerLink]="['dashboard/Furniture']" (click)="keyup('Furniture')">Furniture</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['dashboard/Clothing']" (click)="keyup('Clothing')">Clothing</a> 
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['dashboard/Electronics']" (click)="keyup('Electronics')">Electronics</a>
+            </li> 
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['dashboard/Shoes']" (click)="keyup('Shoes')">Shoes</a>
+            </li> 
+          </ul>
+        </div>
+          
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" name="search" #search placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-dark my-2 my-sm-0" (click)="searchbutton(search.value)" [routerLink]="['/searchProducts']" name="searchbutton" type="submit">Search</button>
+        </form>
         
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" name="search" #search placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-dark my-2 my-sm-0" (click)="searchbutton(search.value)" [routerLink]="['/search']" name="searchbutton" type="submit">Search</button>
-      </form>
-      
-    </nav>
+      </nav>
     </div>
     <br>
     <br>
     <!-- {{array | json}} -->
-    <div *ngIf="!valid && !validsearch && !navLinkOrders" >
-        <div class="row" >
-          <div class="col-4" *ngFor="let a of array">
-            <a (click)="keyup(a.titleArray)" [routerLink]="['/a.titleArray']">
+    <div *ngIf="!valid && !validsearch && !navLinkOrders && !myProfile" >
+      <div class="row" >
+        <div class="col-4" *ngFor="let a of array">
+          <a (click)="keyup(a.titleArray)" [routerLink]="'dashboard/'+a.titleArray">
             <div class="card" id="cards">
                 <img [src]="a.imgArray" class="card-img-top" alt="..." width="100%" height="100%">
                 <div class="card-body">
@@ -66,16 +67,14 @@
                   </div>
                 </div>
             </div>
-            </a>
-          </div>
-
-          
-        </div>
+          </a>
+        </div> 
+      </div>
     </div>
 
 
-    <div *ngIf="valid && !validsearch && !navLinkOrders; else productFound">
-      <h4 *ngIf="categorydetails; else notFound" class="text-center" style="color:rgb(66, 148, 185)">Showing Products {{product}}
+    <div *ngIf="valid && !validsearch && !navLinkOrders && !myProfile; else productFound">
+      <h4 *ngIf="categorydetails; else notFound" class="text-center" style="color:rgb(66, 148, 185)">Showing products of {{product}}
         <div class="alert alert-success" *ngIf="successMessage!=null">{{successMessage}}</div>
         <div class="alert alert-danger" *ngIf="errorMessage=='Please Login to your account'">{{errorMessage}} <br><button class="btn btn-danger" (click)="Logout()" [routerLink]="['/login']">Login</button></div>
         <div class="alert alert-danger" *ngIf="errorMessage!='Please Login to your account' && errorMessage!= null">{{errorMessage}}</div>
@@ -84,7 +83,8 @@
         <div *ngFor="let category of categorydetails" class="col-4">
           <div class="card">
             <a (click)="productDetails(category)" [routerLink]="['/product-details/'+category['_id']]">
-              <img [src]="category.image" class="card-img-top" alt="..." width="100%" height="100%">
+              <img *ngIf="category.image.startsWith('./assets')" [src]="category.image" class="card-img-top" alt="..." width="100%" height="100%">
+              <img  *ngIf="!category.image.startsWith('./assets')"  src="./assets/{{category.image.substring(12)}}" class="card-img-top" alt="..." width="100%" height="100%">
               <div class="card-body">
                 <b><h6 class="card-title"> {{category.pName}}
                   &nbsp;&nbsp;&nbsp;<span class="badge bg-warning">{{category.pRating}}*</span></h6></b>
@@ -96,18 +96,13 @@
               </div>
             </a>
             <div class="card-footer">
-              <button *ngIf="category.pSeller.pQuantity>0" class="btn btn-primary" name="buynow"><a [routerLink]="['/bought']" (click)="buyNow(category)"> Buy Now </a></button>
-              <button *ngIf="category.pSeller.pQuantity==0" class="btn btn-danger" name="notify"><a [routerLink]="['/Notification']" (click)="Notification()"> Notify me </a></button>
+              <button *ngIf="category.pSeller.pQuantity>0" class="btn btn-primary" name="buynow"><a  (click)="buyNow(category)"> Buy Now </a></button>
+              <button *ngIf="category.pSeller.pQuantity==0" class="btn btn-danger" name="notify"><a [routerLink]="['/Notification/'+category['pName']]" (click)="Notification()"> Notify me </a></button>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>
-
-    
-
 
   </div>
 
@@ -118,19 +113,30 @@
   </ng-template>
 
   <div *ngIf="sendData">
-    <app-product-details [categoryFromDashboard]="obj" [userName]="uName" (customEvent)="getDataFromChild($event)"></app-product-details>
+    <app-product-details [categoryFromDashboard]="obj" [userName]="uName" (navLinkEvent)="getNavLinkFromProductDetails($event)" (customEvent)="getDataFromChild($event)"></app-product-details>
   </div>
   <div *ngIf="validsearch">
-    <app-search [userEmailId]="uName" [searchFromDashboard]="patternval" (customSeachEvent)="getSeachDetails($event)"></app-search>
+    <app-search [userEmailId]="uName" [searchFromDashboard]="patternval" (navLinkEvent)="getNavLinkFromSearch($event)" (customSeachEvent)="getSeachDetails($event)"></app-search>
   </div>
   <div *ngIf="navLinkOrders">
     <app-view-orders [userEmailId]="uName"  (viewevent)="DataFromOrders($event)"></app-view-orders>
   </div>
+  <div *ngIf="myProfile">
+    <app-my-profile></app-my-profile>
+  </div>
 
+
+  <div *ngIf="userType=='seller' && userType!=null">
+    <app-seller-dashboard></app-seller-dashboard>
+  </div>
 </div>
 
+
+
+
+
 <div *ngIf="navLink">
-  <app-login></app-login>
+  <app-login (dashboard)="validFromLogin($event)"></app-login>
 </div>
 
 

@@ -37,7 +37,7 @@ a{
   color: aliceblue;
 }
 .texts{
-  font-size: 16px;
+  font-size: 18px;
 }
 .example-fill-remaining-space {
   /* This fills the remaining space, by using flexbox. 

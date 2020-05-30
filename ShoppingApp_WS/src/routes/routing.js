@@ -5,6 +5,8 @@ const credServ = require( '../service/users' );
 const Login = require( '../model/LoginCred' );
 const userDetails = require( '../model/userDetails' );
 const registerDetails = require( '../model/registerDetails' );
+const productDetails = require( '../model/productDetails' );
+const editProductDetails = require( '../model/editProductDetails' );
 // const validator = require('../utilities/validator')
 
 // setup db mongoose db
@@ -19,7 +21,7 @@ routing.get( '/setupDb', ( req, res, next ) => {
 routing.post( '/login', ( req, res, next ) => {
     const credObj = new Login( req.body ); 
     credServ.checkUser( credObj ).then( ( data )=>{
-        res.json( {"message": "Welcome " + data.name} )
+        res.json( {"message": data} )
     } ).catch( ( err )=>{
         next( err );
     } )
@@ -69,6 +71,33 @@ routing.post( '/register',( req,res,next )=>{
     const registerdetails = new registerDetails( req.body ); 
     credServ.register( registerdetails ).then( ( result )=>{
         res.json( {"message": result } );
+    } ).catch( ( err )=>next( err ) )
+} )
+// adding products by seller
+routing.post( '/addProduct',( req,res,next )=>{
+    const productdetails = new productDetails( req.body ); 
+    credServ.addProduct( productdetails ).then( ( result )=>{
+        res.json( {"message": result + " product added into the database" } );
+    } ).catch( ( err )=>next( err ) )
+} )
+// editing product details by seller
+routing.post( '/editProduct',( req,res,next )=>{
+    const editproductdetails = new editProductDetails( req.body ); 
+    credServ.editProduct( editproductdetails ).then( ( result )=>{
+        res.json({"message": "Changes saved successfully" });
+    } ).catch( ( err )=>next( err ) )
+} )
+// Get Seller Products
+routing.get( '/getSellerProducts/:emailId',( req,res,next )=>{
+    credServ.getSellerProducts( req.params.emailId ).then( ( result )=>{
+        res.json( result );
+    } ).catch( ( err )=>next( err ) )
+} )
+
+// get Register Details
+routing.get( '/getRegisterDetails/:emailId',( req,res,next )=>{
+    credServ.getRegisterDetails( req.params.emailId ).then( ( result )=>{
+        res.json( result );
     } ).catch( ( err )=>next( err ) )
 } )
 

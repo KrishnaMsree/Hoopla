@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SearchService } from './search.service';
+import { Router } from '@angular/router';
 // import { Router } from '@angular/router';
 
 @Component({
@@ -16,6 +17,8 @@ export class SearchComponent implements OnInit {
   userEmailId;
   @Output()
   customSeachEvent: EventEmitter<any> = new EventEmitter();
+  @Output()
+  navLinkEvent: EventEmitter<any> = new EventEmitter();
   errorMessage: string;
   successMessage: string;
   orderArray: Array<any> = new Array();
@@ -26,9 +29,10 @@ export class SearchComponent implements OnInit {
   errors;
   error: string = null;
   productLoaded;
+  navLink;
   searchResult: Array<object> = [];
   searchValue: string;
-  constructor(private searchservice: SearchService) { }
+  constructor(private searchservice: SearchService, private router: Router) { }
   getSeachDetails(val){
     this.sendData = val;
   }
@@ -57,24 +61,49 @@ export class SearchComponent implements OnInit {
     }
     );
   }
+  Logout(v) {
+    this.navLink = true;
+    sessionStorage.clear();
+  }
   getDataFromChild(val){
     this.sendData = val;
+  }
+  Notification() {
+    this.errorMessage = this.successMessage = null;
+    alert('You will be notified when product is Available! Thank you');
   }
   sendSearchDetails() {
     this.customSeachEvent.emit(false);
   }
+  sendNavLinkFromSearch() {
+    this.navLinkEvent.emit(true);
+  }
   buyNow(category) {
-    this.cat = category;
     this.errorMessage = this.successMessage = null;
-    this.orderArray.push({emailId: this.userEmailId, pid: category._id, pName: category.pName,
-      pQuantity: category.pSeller.pQuantity, orderDate: new Date().toString(),
-      price: category.price, image: category.image});
-    // console.log(this.orderArray,typeof(this.orderArray));
-    this.searchservice.sendOrderDetails(this.orderArray).subscribe(
-      success => this.successMessage = success['message'],
-      error => this.errorMessage = error.error.message
-    );
-    // alert("You have successfully bought this item")
+    // this.keyup(category.pCategory)
+    this.cat = category;
+    const orderArray: Array<any> = new Array();
+    const b = new Date();    
+    if (this.userEmailId != undefined) {
+      orderArray.push({emailId: this.userEmailId, pid: category._id,
+        pName: category.pName, pQuantity: category.pSeller.pQuantity,
+        price: category.price, orderDate: b.toString(), image: category.image});
+      this.searchservice.sendOrderDetails(orderArray).subscribe(
+        success => {
+          this.successMessage = success['message'];
+          if(this.successMessage!=null){
+            this.router.navigate(['/productPurchased/'+category.pName])
+          }
+        },
+        error => this.errorMessage = error.error.message
+      );
+      // this.keyup(category.pCategory);
+    }
+    else {
+      // this.keyup(category.pCategory);
+      this.errorMessage = 'Please Login to your account';
+
+    }
   }
   productDetails(category) {
     this.errorMessage = this.successMessage = null;

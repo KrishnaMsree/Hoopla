@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './login.service';
@@ -12,10 +12,13 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
   successMessage: string;
   valid = true;
+  @Output()
+  dashboard: EventEmitter<any> = new EventEmitter();
   username;
+  data;
   registerbutton = false;
-  sessionStorageEmail: any;
-  constructor(private fb: FormBuilder, private loginservice: LoginService) { }
+  sessionStorageData: any;
+  constructor(private fb: FormBuilder, private loginservice: LoginService, private router: Router) { }
   loginForm: FormGroup = this.fb.group({
     emailId: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+@gmail.com$/)]],
     password: ['', [Validators.required]]
@@ -31,14 +34,22 @@ export class LoginComponent implements OnInit {
     // this.router.navigate(['/dashboard'])
     this.loginservice.loginData(this.loginForm.value).subscribe(
       response => {
-      this.successMessage = response.message;
-      this.username = this.successMessage.substring(8, 30);
-      sessionStorage.setItem('EmailId', this.username);
-      this.sessionStorageEmail = sessionStorage.getItem('EmailId');
-      console.log("username : "+this.username);
-    }, err => this.errorMessage = err.error.message);
+      this.data = response.message;
+      sessionStorage.setItem('userEmail', this.data.emailId);
+      sessionStorage.setItem('userName', this.data.name);
+      sessionStorage.setItem('userType', this.data.ctype);
+      this.username = sessionStorage.getItem('userName');
+      this.successMessage = 'Welcome '+this.username;
+      if(this.successMessage!=null){
+        this.keysuccess()
+      }
+      }, err => this.errorMessage = err.error.message);
   }
   keysuccess() {
       this.valid = false;
+      this.router.navigate(['/dashboard'])
+  }
+  myHome(){
+    this.dashboard.emit(false);
   }
 }

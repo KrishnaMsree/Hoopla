@@ -1,12 +1,16 @@
 
-
+<button mat-raised-button color="accent" [routerLink]="['/']" (click)="sendSearchDetails()">Go Back</button>
 <div *ngIf="!sendData && searchResult.length>0">
-    <button mat-raised-button color="accent" [routerLink]="['/']" (click)="sendSearchDetails()">Go Back</button>
-
-    <h4 class="text-center" style="color:rgb(66, 148, 185)">Showing Search Related Produts
-        <div class="alert alert-success" *ngIf="successMessage!=null">{{successMessage}}</div>
-        <div class="alert alert-danger" *ngIf="errorMessage!=null">{{errorMessage}}</div>
-    </h4>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h4 class="text-center" style="color:rgb(66, 148, 185)">Showing Search Related Produts
+                <div class="alert alert-success" *ngIf="successMessage!=null">{{successMessage}}</div>
+                <div class="alert alert-danger" *ngIf="errorMessage=='Please Login to your account'">{{errorMessage}} <br><button class="btn btn-danger float-center" (click)="sendNavLinkFromSearch()" [routerLink]="['/login']">Login</button></div>
+                <div class="alert alert-danger" *ngIf="errorMessage!='Please Login to your account' && errorMessage!= null">{{errorMessage}}</div>
+            </h4>
+        </div>
+    </div>
+    
     <div class="row" >
       <!-- <div class="row"> -->
         <div *ngFor="let category of searchResult" class="col-4">
@@ -24,7 +28,8 @@
                 </a>
                 <div class="card-footer">
                     <button class="btn btn-primary" name="button" (click)="buyNow(category)">Buy Now</button>
-                </div>
+                    <button *ngIf="category.pSeller.pQuantity==0" class="btn btn-danger" name="notify"><a [routerLink]="['/Notification/'+category['pName']]" (click)="Notification()"> Notify me </a></button>
+            </div>
             </div>
 
         </div>
@@ -35,9 +40,12 @@
     <app-product-details [userName]="userEmailId" [categoryFromDashboard]="obj" (customEvent)="getDataFromChild($event)"></app-product-details>
   </div>
 <div class="!sendData && searchResult.length==0">
-    <div *ngIf="error!=null" id="errorMessage">
-        <span class="alert alert-danger">{{error}}</span>
+    <div class="row">
+        <div *ngIf="error!=null" id="errorMessage" class="col-8 offset-2">
+            <span class="alert alert-danger">{{error}}</span>
+        </div>
+        <br>
     </div>
-    <br>
-    <button mat-raised-button color="accent" class="text-center" [routerLink]="['/']" (click)="sendSearchDetails()">Go Back</button>
+
+    <!-- <button mat-raised-button color="accent" class="text-center" [routerLink]="['/']" (click)="sendSearchDetails()">Go Back</button> -->
 </div>

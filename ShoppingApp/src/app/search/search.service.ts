@@ -15,7 +15,6 @@ export class SearchService {
   }
   sendOrderDetails(user) {
     this.url = 'http://localhost:2000/order';
-    // console.log("URL : ",this.url,"Quantity : "+user.pQuantity);
     return this.http.post(this.url, user);
   }
 }

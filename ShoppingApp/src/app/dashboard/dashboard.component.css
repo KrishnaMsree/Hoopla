@@ -29,15 +29,20 @@ a{
 font-weight: bold;
 color: darkmagenta;
 }
-a{
-    color: rgb(20, 220, 203);
+a:hover{
+    color: aliceblue;
+    text-decoration: none;
 }
 mat-form-field {
     margin-right: 12px;
   }
-  
+
+a{
+text-decoration: none;
+color: aliceblue;
+}
 .texts{
-    font-size: 16px;
+font-size: 18px;
 }
 #cards{
     background-image: linear-gradient(rgba(184, 231, 225, 0.911),rgb(212, 235, 233),rgb(161, 189, 212));
@@ -51,3 +56,10 @@ mat-form-field {
     width: 50%;
     margin-left: 25%;
 }
+.mat-stepper-horizontal {
+    margin-top: 8px;
+  }
+  
+  .mat-form-field {
+    margin-top: 16px;
+  }

@@ -1,0 +1,139 @@
+<div *ngIf="!editvar">
+  <div *ngIf="errorMessage!=null && length==0">
+    <div class="col-8 offset-2">
+      <div class="alert alert-danger text-center">{{errorMessage}}</div><br>
+      <img src="./assets/chowpic.jpg" alt="chowpic" width="100%" height="20%">
+    </div>
+  </div>
+  <div *ngIf="successMessage!=null && length!=0" class="alert alert-success text-center">{{successMessage}}</div>
+  <div style="padding-top: 50px;" *ngIf="!valid">
+        
+        <h3 id="products" *ngIf="errorMessage==null">You have {{length}} products in your database!</h3>
+        <div class="row" *ngIf="errorMessage==null">
+          
+          <div *ngFor="let data of orders">
+
+            <div class="offset-1 col-lg-10" *ngFor = "let datas of data.products" >
+              <mat-card class="example-card" >
+                <div class="row" >
+                  
+                  <div class="col-6" >
+                    <mat-card-header>
+                      <mat-card-title>{{datas.pName}}</mat-card-title>
+                      <mat-card-subtitle>Product Id : {{datas._id}}</mat-card-subtitle>
+                      <mat-card-subtitle>Product Rating : <span class="badge text-danger bg-warning">{{datas.pRating}}*</span></mat-card-subtitle>
+                      <mat-card-subtitle>Product Category : {{datas.pCategory}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <!-- {{datas.image.substring(12)}} -->
+                    <span><img src="./assets/{{datas.image.substring(12)}}" alt="..." width="50%" height="50%"></span>
+      
+                  </div>
+                  <div class="col-6">
+                    <span>
+                        <p>Description : {{datas.pDescription}}</p>
+                        <p>Color : {{datas.color}}</p>
+                        <p>Quantity : {{datas.pSeller.pQuantity}}</p>
+                        <p>Discount : {{datas.pSeller.pDiscount}}</p>
+                        <p>Shipping Charges : {{datas.pSeller.pShippingCharges}}</p>
+                        <p>Price : {{datas.price | currency:'INR'}}</p>
+                    </span>
+                    <span>
+                      <button class="btn btn-primary"(click)="Edit(datas._id)" [routerLink]="['dashboard/seller/editProduct']" type="button">Edit</button>
+                    </span>
+                      
+                  </div>
+                </div>
+                
+                
+              </mat-card><br> <br>
+      
+            </div>
+          </div>
+          
+        </div>
+  </div>
+</div>
+
+<div *ngIf="editvar">
+  <div class="row">
+    <div class="col-5 offset-3">
+      <h3 class="text-center">
+        <div *ngIf="errorMessage!=null" id="errorMessage">
+            <span class="text-danger">{{errorMessage}}</span>
+        </div>
+        <div *ngIf="successMessage!=null" id="successMessage">
+            <span class="text-success">{{successMessage}}</span>
+        </div>
+      </h3>
+      <div>
+        <h3 class="text-center">Edit all the fields</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5 offset-3">
+      <div class="card" >
+        <form [formGroup]="firstFormGroup" (ngSubmit)="editItem()">
+          <div class="card-body">
+            <div class="form-group">
+              <label style="color: black;" for="userEmail">UserId:</label>
+              <input class="form-control" name="userEmail" type="text" id="userEmail" formControlName="userEmail" disabled>
+            </div>
+            <div class="form-group">
+              <label style="color: black;" for="pId">Product Id:</label>
+              <input class="form-control" name="pId" type="number" id="pId" formControlName="pId" disabled>
+            </div>
+            <div class="form-group">
+              <label style="color: black;"  for="price">Product Price:</label>
+              <input class="form-control" name="price" type="number" placeholder="Eg. 13999" id="price" formControlName="price">
+            </div>
+            <div>
+              <span class="text-danger" *ngIf=" firstFormGroup.controls.price.touched &&  firstFormGroup.controls.price.errors?.required">Price field is required</span>
+            </div>
+  
+            <div class="form-group">
+              <label  style="color: black;" for="color">Product Color:</label>
+              <input class="form-control" name="color" type="text" placeholder="Eg. red" formControlName="color" id="color">
+            </div>
+            <div>
+              <span class="text-danger" *ngIf=" firstFormGroup.controls.color.touched &&  firstFormGroup.controls.color.errors?.required">Color field is required</span>
+              <span class="text-danger" *ngIf=" firstFormGroup.controls.color.errors?.pattern">Enter only alphabet</span>
+            </div>
+  
+            <div class="form-group">
+              <label style="color: black;" for="pDiscount">Product Discount:</label>
+              <input class="form-control" name="pDiscount" type="number" placeholder="Eg. 0.2" id="pDiscount" formControlName="pDiscount" >
+            </div>
+            <div>
+              <span class="text-danger" *ngIf=" firstFormGroup.controls.pDiscount.touched &&  firstFormGroup.controls.pDiscount.errors?.required">Discount field is required</span>
+            </div>
+  
+            <div class="form-group">
+              <label style="color: black;" for="pQuantity">Product Quantity:</label>
+              <input class="form-control" name="pQuantity" type="number" placeholder="Eg. 630" formControlName="pQuantity" id="pQuantity">
+            </div>
+            <div>
+              <span class="text-danger" *ngIf=" firstFormGroup.controls.pQuantity.touched &&  firstFormGroup.controls.pQuantity.errors?.required">Quantity field is required</span>
+            </div>
+  
+            <div class="form-group">
+              <label style="color: black;" for="pShippingCharges">Shipping charges:</label>
+              <input class="form-control" name="pShippingCharges" type="number" formControlName="pShippingCharges" id="pShippingCharges" placeholder="Eg. 150">
+            </div>
+            <div>
+              <span class="text-danger" *ngIf=" firstFormGroup.controls.pShippingCharges.touched &&  firstFormGroup.controls.pShippingCharges.errors?.required">Shipping Charges field is required</span>
+            </div>
+          </div>
+  
+          <div class="card-footer">
+              <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+              <button type="button" type="submit" class="btn btn-primary float-right" [disabled]="!firstFormGroup.valid">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+         
+
+</div>

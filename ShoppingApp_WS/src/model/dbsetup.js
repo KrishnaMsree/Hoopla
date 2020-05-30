@@ -384,62 +384,25 @@ const productDb=
       }
 ]
 
-const credentialDb=
-[
-    {
-        emailId: "demo@infy.com",
-        password: "demo"
-    },
-    {
-        emailId: "krishna@infy.com",
-        password: "kalyan"
-    },
-    {
-        emailId: "kalyan@infy.com",
-        password: "krishna"
-    }
-]
 
-const userDb=[
-  {
-    emailId: "krishna@infy.com",
-    orders: []
-  },
-  {
-    emailId: "demo@infy.com",
-    orders: []
-  },
-  {
-    emailId: "kalyan@infy.com",
-    orders: []
-  },
-]
 
 exports.setupDb = () => {
     return collection.getProductCollection().then( ( product ) => {
         return product.deleteMany().then( () => {
             return product.insertMany( productDb ).then( () => {
-                return collection.getCredentialCollection().then( ( creds ) => {
-                    return creds.deleteMany().then( () => {
-                        return creds.insertMany( credentialDb ).then( (  ) => {
-                            return collection.getRegisterCollection().then( ( reg ) => {
-                              // return reg.deleteMany().then( ( ) => { 
-
-                              
-                                return reg.find().then( ( datas ) => {
-                                  if( datas ) return "Insertion Successful"
-                                  else{
-                                      let err = new Error( "Insertion failed" );
-                                      err.status = 400;
-                                      throw err;
-                                  }
-                                } )
-                              // })
-                            } )
-                        } )
+                return collection.getRegisterCollection().then( ( reg ) => {
+                  return reg.deleteMany().then( ( ) => { 
+                    return reg.find().then( ( datas ) => {
+                      if( datas ) return "Insertion Successful"
+                      else{
+                          let err = new Error( "Insertion failed" );
+                          err.status = 400;
+                          throw err;
+                      }
                     } )
+                  } )
                 } )
-            } )
-        } )
+              } )
+        })
     } )
 }

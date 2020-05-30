@@ -12,6 +12,7 @@ import {
   MatToolbarModule,
   MatExpansionModule
 } from '@angular/material';
+import {MatStepperModule} from '@angular/material/stepper';
 import {MatDividerModule} from '@angular/material/divider';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +26,9 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { SearchComponent } from './search/search.component';
 import { ViewOrdersComponent } from './view-orders/view-orders.component';
 import { RegisterComponent } from './register/register.component';
+import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
+import { ViewProductsComponent } from './seller-dashboard/view-products/view-products.component';
+import { MyProfileComponent } from './seller-dashboard/my-profile/my-profile.component';
 
 // import { MaterialModule } from './material.module';
 
@@ -36,7 +40,10 @@ import { RegisterComponent } from './register/register.component';
     ProductDetailsComponent,
     SearchComponent,
     ViewOrdersComponent,
-    RegisterComponent
+    RegisterComponent,
+    SellerDashboardComponent,
+    ViewProductsComponent,
+    MyProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +62,8 @@ import { RegisterComponent } from './register/register.component';
     MatSliderModule,
     MatInputModule,
     MatToolbarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatStepperModule
   ],
   providers: [],
   bootstrap: [AppComponent]

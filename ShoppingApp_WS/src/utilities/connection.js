@@ -24,6 +24,33 @@ const productSchema = Schema( {
     }
 }, { collection: "Product" } );
 
+const sellerSchema = Schema( {
+    _id: { type: String, unique: true },
+    emailId: { type: String, unique: true },
+    name: String,
+    products: [
+        {
+        _id: { type: String, unique: true },
+        pName: { type: String, unique: true } ,
+        pDescription: String,
+        pRating: Number,
+        pCategory: String,
+        price: Number,
+        color: String,
+        image: String,
+        specification: String,
+        dateFirstAvailable: String,
+        dateLastAvailable: String,
+        pSeller: {
+        sId: String,
+        pDiscount: Number,
+        pQuantity: Number,
+        pShippingCharges: Number
+        }
+        }
+    ]
+}, { collection: "Seller" } );
+
 const CredentialSchema = Schema( {
     emailId: { type: String, unique: true },
     password: String
@@ -38,7 +65,7 @@ const CredentialSchema = Schema( {
 // } )
 
 const userSchema = Schema( {
-    emailId: String,
+    emailId: { type: String, unique: true },
     // orders : {type:[orderSchema],default:[]},
     pid: Number,
     pName: String,
@@ -49,9 +76,10 @@ const userSchema = Schema( {
 }, { collection: "User" } );
 
 const registerSchema = Schema( {
-    emailId: String,
+    emailId: { type: String, unique: true },
     password: String,
     name: String,
+    ctype: String,
     phoneNo: Number
 }, { collection: "Register" } );
 
@@ -87,15 +115,25 @@ collection.getProductCollection = () => {
     } )
 }
 
-
-collection.getCredentialCollection = () => {
+collection.getSellerCollection = () => {
     return Mongoose.connect( url, { useNewUrlParser: true } ).then( ( database ) => {
-        return database.model( 'Credential', CredentialSchema )
-    } ).catch( ( ) => {
+        return database.model( 'Seller', sellerSchema )
+    } ).catch( (  ) => {
         let err = new Error( "Could not connect to Database" );
         err.status = 500;
         throw err;
     } )
 }
+
+
+// collection.getCredentialCollection = () => {
+//     return Mongoose.connect( url, { useNewUrlParser: true } ).then( ( database ) => {
+//         return database.model( 'Credential', CredentialSchema )
+//     } ).catch( ( ) => {
+//         let err = new Error( "Could not connect to Database" );
+//         err.status = 500;
+//         throw err;
+//     } )
+// }
 
 module.exports = collection;

@@ -2,18 +2,25 @@
 <!-- {{categoryFromDashboard | json}} -->
 <body id="bkgrd" style="background-image: url(./assets/login1.jpg);">
 
-
-<h4 class="offset-2">{{categoryFromDashboard.pName}} details
-    <div class="alert alert-success" *ngIf="successMessage!=null">{{successMessage}}</div>
-    <div class="alert alert-danger" *ngIf="errorMessage!=null">{{errorMessage}}</div>
+<br><br>
+<h4 class="col-5 offset-2">
+    <div class="text-center text-secondary">
+        {{categoryFromDashboard.pName | uppercase}} details
+    </div>
+    <div class="alert alert-success text-center" *ngIf="successMessage!=null">{{successMessage}}</div>
+    <div class="alert alert-danger text-center" *ngIf="errorMessage=='Please Login to your account'">{{errorMessage}} <br><button class="btn btn-danger" (click)="sendNavLinkFromSearch()" [routerLink]="['/login']">Login</button></div>
+    <div class="alert alert-danger text-center" *ngIf="errorMessage!='Please Login to your account' && errorMessage!= null">{{errorMessage}}</div>
 </h4>
 <br>
 <br><div class="row">
     <div class="col-md-4 offset-1" id="atags">
-        <span> <img [src]="categoryFromDashboard.image" alt="Image not found" width="70%" height="70%"></span><br><br>
+        <span>
+            <img *ngIf="categoryFromDashboard.image.startsWith('./assets')" [src]="categoryFromDashboard.image" class="card-img-top" alt="Image not found..." width="50%" height="70%">
+            <img *ngIf="!categoryFromDashboard.image.startsWith('./assets')"  src="./assets/{{categoryFromDashboard.image.substring(12)}}" class="card-img-top" alt="Image not found..." width="50%" height="70%">
+        </span><br><br>
         <!-- <button class="btn btn-primary" (click)="pushDataToKart(categoryFromDashboard)">Add to Kart</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-        <button class="btn btn-warning"><a [routerLink]="['/']" (click)="DatafromProductDetails()"> Go Back </a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="btn btn-primary" name="buynow"><a [routerLink]="['/bought']" (click)="buyNow(categoryFromDashboard)"> Buy Now </a></button>
+        <button class="btn btn-warning"><a [routerLink]="['/dashboard/'+categoryFromDashboard.pCategory]" (click)="DatafromProductDetails()"> Go Back </a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-primary" name="buynow"><a (click)="buyNow(categoryFromDashboard)"> Buy Now </a></button>
     </div>
     <div class="col-md-4" id="atags">
         <h4 class="text-danger">{{categoryFromDashboard.pName}} &nbsp;&nbsp;&nbsp;&nbsp; <span class="badge bg-warning">{{categoryFromDashboard.pRating}}*</span></h4><br>

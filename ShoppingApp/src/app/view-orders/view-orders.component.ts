@@ -42,7 +42,6 @@ export class ViewOrdersComponent implements OnInit {
     this.viewOrderService.viewAllOrders(this.userEmailId).subscribe(
       data => {
         this.orders = data;
-        console.log(this.orders.length);
         this.sum = 0;
         for(var i = 0 ; i<this.orders.length;i++){
           this.sum += this.orders[i].price

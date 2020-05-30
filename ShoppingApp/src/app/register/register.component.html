@@ -30,7 +30,7 @@
                         <input type="email" name="emailId" id="emailId" formControlName="emailId" class="form-control" placeholder="Enter emailId">
                     </div>
                     <div>
-                        <span class="text-danger" *ngIf="registerForm.controls.emailId.errors?.touched">EmailId field is required</span>
+                        <span class="text-danger" *ngIf="registerForm.controls.emailId.touched && registerForm.controls.emailId.errors?.required">EmailId field is required</span>
                         <span class="text-danger" *ngIf="registerForm.controls.emailId.errors?.pattern">Please provide in abc@gmail.com format</span>
                     </div>
                     
@@ -39,7 +39,7 @@
                         <input type="password" name="password" id="password" formControlName="password" class="form-control" placeholder="Enter password">
                     </div>
                     <div>
-                        <span class="text-danger" *ngIf="registerForm.controls.password.errors?.touched">Password field is required</span>
+                        <span class="text-danger" *ngIf="registerForm.controls.password.touched && registerForm.controls.password.errors?.required">Password field is required</span>
                         <span class="text-danger" *ngIf="registerForm.controls.password.errors?.minLength">Please provide min 8 characters</span>
                     </div>
 
@@ -47,8 +47,10 @@
                         <input type="text" name="name" id="name" formControlName="name" class="form-control" placeholder="Enter your name">
                     </div>
                     <div>
-                        <span class="text-danger" *ngIf="registerForm.controls.name.errors?.touched">Name field is required</span>
+                        <span class="text-danger" *ngIf="registerForm.controls.name.touched && registerForm.controls.name.errors?.required">Name field is required</span>
                     </div>
+
+
 
                     <!-- <div class="form-group">
                         <input type="date" name="dateOfBirth" id="dateOfBirth" formControlName="dateOfBirth" class="form-control" placeholder="Enter Date of Birth">
@@ -58,10 +60,21 @@
                     </div> -->
 
                     <div class="form-group">
+                        <select id="ctype" name="ctype" formControlName="ctype" class="form-control">
+                            <option value="" disabled selected>--Select customer type--</option>
+                            <option value="buyer">Buyer</option>
+                            <option value="seller">Seller</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span class="text-danger" *ngIf="registerForm.controls.ctype.touched && registerForm.controls.ctype.errors?.required">Customer type field is required</span>
+                    </div>
+
+                    <div class="form-group">
                         <input type="number" name="phoneNo" id="phoneNo" formControlName="phoneNo" class="form-control" placeholder="Enter contact number">
                     </div>
                     <div>
-                        <span class="text-danger" *ngIf="registerForm.controls.phoneNo.errors?.pristine">PhoneNo field is required</span>
+                        <span class="text-danger" *ngIf="registerForm.controls.phoneNo.touched && registerForm.controls.phoneNo.errors?.required">PhoneNo field is required</span>
                         <span class="text-danger" *ngIf="registerForm.controls.phoneNo.errors?.pattern">Please provide in Indian format</span>
                     </div>
                 </div>
