@@ -58,8 +58,19 @@ font-size: 18px;
 }
 .mat-stepper-horizontal {
     margin-top: 8px;
-  }
-  
-  .mat-form-field {
+}
+
+.mat-form-field {
     margin-top: 16px;
-  }
+}
+#discount{
+    animation-name: disc;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@keyframes disc{
+    100%{
+        color: red;
+    }
+}

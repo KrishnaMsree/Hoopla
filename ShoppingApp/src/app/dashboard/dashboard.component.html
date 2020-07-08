@@ -79,8 +79,21 @@
         <div class="alert alert-danger" *ngIf="errorMessage=='Please Login to your account'">{{errorMessage}} <br><button class="btn btn-danger" (click)="Logout()" [routerLink]="['/login']">Login</button></div>
         <div class="alert alert-danger" *ngIf="errorMessage!='Please Login to your account' && errorMessage!= null">{{errorMessage}}</div>
       </h4>
+
+      <form class="form-inline my-2 my-lg-0">
+        &nbsp;&nbsp;&nbsp;
+        <!-- <b><label for="filter">Filter &nbsp;&nbsp;&nbsp;&nbsp;</label></b> -->
+        <select name="filter" class="form-control mr-sm-2" id="filter" #filter>
+          <option value="" selected disabled>--Select a filter option--</option>
+          <option value="productName">Product Name</option>
+          <option value="price">Price [low - high]</option>
+          <option value="pRating">Rating [high - low]</option>
+        </select>
+        <button class="btn btn-outline-dark my-2 my-sm-0" (click)="filterButton(filter.value)" name="filterbutton" type="submit">Apply Filter</button>
+      </form>
+
       <div class="row">
-        <div *ngFor="let category of categorydetails" class="col-4">
+        <div *ngFor="let category of categorydetails | sort : filterOption" class="col-4">
           <div class="card">
             <a (click)="productDetails(category)" [routerLink]="['/product-details/'+category['_id']]">
               <img *ngIf="category.image.startsWith('./assets')" [src]="category.image" class="card-img-top" alt="..." width="100%" height="100%">
@@ -88,11 +101,10 @@
               <div class="card-body">
                 <b><h6 class="card-title"> {{category.pName}}
                   &nbsp;&nbsp;&nbsp;<span class="badge bg-warning">{{category.pRating}}*</span></h6></b>
-                <p class="card-text">{{category.pDescription}}</p>
-                <p >Only {{category.pSeller.pQuantity}} left in stock</p>
-                <div>
-                  <span style="color:crimson;">{{category.price | currency:'INR' }}</span>
-                </div>
+                <p class="card-text text-info" >{{category.pDescription}}</p>
+                <p class="card-text text-info">Only <span class="text-danger">{{category.pSeller.pQuantity}}</span> left in stock</p>
+                <div class="card-text" style="color: blue;">{{category.price | currency:'INR' }}</div><br>
+                <h5><div class="card-text" id="discount">{{category.pSeller.pDiscount | percent }} Discount off</div></h5>
               </div>
             </a>
             <div class="card-footer">

@@ -27,6 +27,7 @@ export class SearchComponent implements OnInit {
   obj;
   navLinkOrders;
   errors;
+  filterOption;
   error: string = null;
   productLoaded;
   navLink;
@@ -35,6 +36,9 @@ export class SearchComponent implements OnInit {
   constructor(private searchservice: SearchService, private router: Router) { }
   getSeachDetails(val){
     this.sendData = val;
+  }
+  filterButton(val){
+    this.filterOption = val;
   }
   ngOnInit() {
   this.error = null;

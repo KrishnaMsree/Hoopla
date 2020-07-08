@@ -29,6 +29,7 @@ import { RegisterComponent } from './register/register.component';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 import { ViewProductsComponent } from './seller-dashboard/view-products/view-products.component';
 import { MyProfileComponent } from './seller-dashboard/my-profile/my-profile.component';
+import { SortPipe } from './sort.pipe';
 
 // import { MaterialModule } from './material.module';
 
@@ -43,7 +44,8 @@ import { MyProfileComponent } from './seller-dashboard/my-profile/my-profile.com
     RegisterComponent,
     SellerDashboardComponent,
     ViewProductsComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    SortPipe
   ],
   imports: [
     BrowserModule,

@@ -48,6 +48,7 @@ export class DashboardComponent implements OnInit {
   slideIndex = 1;
   isLinear = false;
   home = false;
+  filterOption;
   constructor(private dashboardservice: DashboardService, private router: Router,private myProfileService: MyProfileService) { }
   
   
@@ -66,6 +67,10 @@ export class DashboardComponent implements OnInit {
   validFromLogin(val){
     this.navLink = val;
   }
+  filterButton(val){
+    this.filterOption = val;
+  }
+
   profile(){
     this.validsearch = false;
     this.myProfile = true;
